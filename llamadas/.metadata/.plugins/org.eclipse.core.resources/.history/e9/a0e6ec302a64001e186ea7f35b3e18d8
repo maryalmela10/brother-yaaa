@@ -1,0 +1,22 @@
+package ej1;
+
+import java.util.Scanner;
+
+public class Ejercicio1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		double pulgadas,centimetros;
+		
+		Scanner teclado=new Scanner(System.in);
+		
+		System.out.println("Escribe pulgadas");
+		
+		pulgadas=teclado.nextDouble();
+		centimetros=pulgadas*2.54;
+		System.out.println("En cm : "+ centimetros);
+		
+	}
+
+}

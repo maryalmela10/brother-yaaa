@@ -1,0 +1,104 @@
+package Pokimon;
+
+import java.util.Scanner;
+
+
+public class PokiMochila {
+private int espacios=3;
+private Pokimon pokimon1;
+private Pokimon pokimon2;
+private Pokimon pokimon3;
+
+
+public PokiMochila() {
+
+}
+public void recogerPokimon(Pokimon pokimon) {
+	double probabilidad=Math.random();
+	if(probabilidad<0.5) {
+		System.out.println("Has recogido un pokimon");
+	
+		if(this.espacios==3) {
+		this.pokimon1=pokimon;
+		System.out.println(pokimon);
+		this.espacios--;
+		}else if(this.espacios==2) {
+			this.pokimon2=pokimon;
+			System.out.println(pokimon);
+			this.espacios--;
+			}else if(this.espacios==1) {
+				this.pokimon3=pokimon;
+				System.out.println(pokimon);
+				this.espacios--;
+				}else if(this.espacios==0) {
+					System.out.println("quieres cambiar el pokemon?");
+					System.out.println("1.Si");
+					System.out.println("2.No");
+					Scanner teclado=new Scanner(System.in);
+					int cambiar= teclado.nextInt();
+					if(cambiar==1) {
+						System.out.println("Lo quieres cambiar por:");
+						System.out.println("1."+pokimon1);
+						System.out.println("2."+pokimon2);
+						System.out.println("3."+pokimon3);
+						int eleccion= teclado.nextInt();
+						switch(eleccion) {
+						case 1:
+							this.pokimon1=pokimon;
+							break;
+						case 2:
+							this.pokimon2=pokimon;
+							break;
+						case 3:
+							this.pokimon3=pokimon;
+							break;
+						}
+					}
+					 
+					}
+	}else {
+		System.out.println("Se te ha escapado el pokimon");
+
+	}
+}
+
+public boolean mochilaLlena() {
+	boolean llena=false;
+	if(this.espacios==0) {
+		llena=true;
+	}
+	return llena;
+}
+public boolean mochilaVacia() {
+	boolean vacia=false;
+	if(this.espacios==3) {
+		vacia=true;
+	}
+	return vacia;
+}
+public int getEspacios() {
+	return espacios;
+}
+public void setEspacios(int espacios) {
+	this.espacios = espacios;
+}
+public Pokimon getPokimon1() {
+	return pokimon1;
+}
+public void setPokimon1(Pokimon pokimon1) {
+	this.pokimon1 = pokimon1;
+}
+public Pokimon getPokimon2() {
+	return pokimon2;
+}
+public void setPokimon2(Pokimon pokimon2) {
+	this.pokimon2 = pokimon2;
+}
+public Pokimon getPokimon3() {
+	return pokimon3;
+}
+public void setPokimon3(Pokimon pokimon3) {
+	this.pokimon3 = pokimon3;
+}
+
+}
