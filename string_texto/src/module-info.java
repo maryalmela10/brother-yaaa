@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module string_texto {
-}

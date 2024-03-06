@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * 
- */
-module herencia_magos {
-}
