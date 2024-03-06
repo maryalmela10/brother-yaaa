@@ -17,7 +17,7 @@ public class Main {
 		BufferedReader lecturaFicheroNotas = null;
 		String valorTeclado;
 		double media, suma=0;
-
+//marico yaaaa
 		try {
 		ficheroNotas = new PrintWriter(new FileWriter("notas.txt"));
 		System.out.println("Escribe un número ");
