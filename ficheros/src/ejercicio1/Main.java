@@ -26,7 +26,6 @@ public class Main {
 			valorTeclado=teclado.nextLine();
 		}
 		}
-		
 		catch (IOException e) {
 			//para depurar
 			e.printStackTrace();
