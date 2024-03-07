@@ -15,7 +15,6 @@ public class CopyBytea {
             out = new FileOutputStream("outagain.txt");
             int c,contador=0,contadorPorLineas=1,cc=0;
             char ch;
-            
 
             while ((c = in.read()) != -1) {
                 out.write(c);
