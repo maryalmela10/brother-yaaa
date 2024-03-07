@@ -10,14 +10,16 @@ import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException{
-		// TODO Auto-generated method stub
+	public static void main(String[] args){
 		Scanner teclado=new Scanner(System.in);
 		PrintWriter ficheroNotas = null;
+		PrintWriter escribir = null;
+		BufferedReader leer = null;
 		BufferedReader lecturaFicheroNotas = null;
-		String valorTeclado;
+		String valorTeclado, linea;
 		double media, suma=0;
-//marico yaaaa
+		int cantidadNotas=0;
+		
 		try {
 		ficheroNotas = new PrintWriter(new FileWriter("notas.txt"));
 		System.out.println("Escribe un número ");
@@ -36,6 +38,28 @@ public class Main {
 		
 		try {
 			lecturaFicheroNotas = new BufferedReader(new FileReader("notas.txt"));
+			linea=lecturaFicheroNotas.readLine();
+			while(linea!=null) {
+				cantidadNotas++;
+				suma+=Integer.parseInt(linea);
+			}
+			if (cantidadNotas==0) {
+				System.out.println("No hay datos");
+			} else {
+				media=suma/cantidadNotas;
+				//Filtrar y escribir en el fichero
+				escribir = new PrintWriter(new FileWriter("mayores.txt"));
+				leer = new BufferedReader(new FileReader("notas.txt"));
+				linea=leer.readLine();
+				while(linea!=null) {
+					if(Double.parseDouble(linea)>media) {
+						escribir.println(linea);
+					}
+					linea=leer.readLine();
+				}
+				
+				//Mostrar dato
+			}
 			
 		}
 		
@@ -43,9 +67,38 @@ public class Main {
 			//para depurar
 			e.printStackTrace();
 		}
+		catch (IOException e) {
+			//para depurar
+			e.printStackTrace();
+		} 
 		
 		finally {
-			ficheroNotas.close();
+			if(ficheroNotas!=null) {
+				ficheroNotas.close();
+			}
+			
+			if(escribir!=null) {
+				escribir.close();
+			}
+			
+			if(leer!=null) {
+				try {
+					leer.close();
+				} catch (IOException e) {
+					//para depurar
+					e.printStackTrace();
+				} 	
+			}
+			
+			if(lecturaFicheroNotas!=null) {
+				try {
+					lecturaFicheroNotas.close();
+				} catch (IOException e) {
+					//para depurar
+					e.printStackTrace();
+				} 	
+			}
+			
 		}
 		
 	} 
