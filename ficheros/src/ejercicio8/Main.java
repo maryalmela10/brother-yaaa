@@ -19,6 +19,7 @@ public class Main {
 		try {
 			leer=new BufferedReader(new FileReader("Test.java"));
 			escribir=new PrintWriter(new FileWriter("copia.java"));
+			//copiar con mv
 			linea=leer.readLine();
 			while(linea!=null) {
 				//procesar linea

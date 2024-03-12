@@ -1,5 +1,7 @@
-package ejercicio8;
-
-public class Test {
-	double x,y;
-}
+dcfs<drgrfg
+asdj
+  double fgfg;
+sfjfjkjs
+ double hola;
+ssffff
+sffff
