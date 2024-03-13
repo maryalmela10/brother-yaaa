@@ -9,14 +9,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PrintWriter escribir=null;
+		PrintWriter escribir=null,escribir2=null;
 		Scanner teclado=new Scanner(System.in);
-		String linea=null, Pgrande=null;
+		String linea=null, Pgrande=null, palabraReversa="";
 		int opcion=0;
 		
 		
 		try {
 			escribir = new PrintWriter(new FileWriter("guardaPalabras.txt"));
+			escribir2 = new PrintWriter(new FileWriter("palindromos.txt"));
 			for(int i=0; i<5;i++) {
 				System.out.println("Ingresa una palabra");
 				linea=teclado.nextLine();
@@ -33,6 +34,13 @@ public class Main {
 						}
 					}
 				}
+				for(int j=linea.length()-1;j>=0;j--) {
+					palabraReversa+=linea.charAt(j);
+				}
+				if(linea.equals(palabraReversa)) {
+					escribir2.println(palabraReversa);
+				} 
+				palabraReversa="";
 				escribir.println(linea);
 			}
 			System.out.println("Palabra más larga "+Pgrande);
@@ -44,6 +52,10 @@ public class Main {
 		
 		finally {
 			if(escribir!=null) {
+				escribir.close(); 	
+			}
+			
+			if(escribir2!=null) {
 				escribir.close(); 	
 			}
 		}
