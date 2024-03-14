@@ -37,7 +37,8 @@ public class Main {
 				for(int j=linea.length()-1;j>=0;j--) {
 					palabraReversa+=linea.charAt(j);
 				}
-				if(linea.equals(palabraReversa)) {
+
+				if(linea.equalsIgnoreCase(palabraReversa)) {
 					escribir2.println(palabraReversa);
 				} 
 				palabraReversa="";
@@ -56,7 +57,7 @@ public class Main {
 			}
 			
 			if(escribir2!=null) {
-				escribir.close(); 	
+				escribir2.close(); 	
 			}
 		}
 	}
