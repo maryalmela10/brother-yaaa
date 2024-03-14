@@ -47,7 +47,7 @@ public class Main {
             try {
                 while (true) {
                     num = in.readInt();
-                    System.out.println(num);
+                    System.out.print(num+" ");
                 }
             } catch (EOFException e) { }
             System.out.println("Se acabo");
