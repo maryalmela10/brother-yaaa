@@ -96,8 +96,12 @@ public class Main {
         try {
         	in3 = new DataInputStream(new
                     BufferedInputStream(new FileInputStream("numeroMayor.mar")));
+        	 
+        	
+        	
         	
         	while (true) {
+        		
                 num = in3.readInt();
                 System.out.println(num);
            
@@ -105,7 +109,12 @@ public class Main {
         	} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {}
+			} catch (EOFException e) {
+				System.out.println("HOLAA");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         finally {
             try {
 				in3.close();
