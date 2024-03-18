@@ -75,6 +75,19 @@ public class Usuario {
 		this.videos = videos;
 	}
 	
+	public ArrayList<String> mostrarVideos() {
+		ArrayList<String> datos = new ArrayList<String>();
+		for(Video video: this.videos) {
+			datos.add(video.toString());
+		}
+		return datos;
+	}
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 	
 	
 }

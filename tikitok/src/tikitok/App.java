@@ -18,7 +18,7 @@ public class App {
 		String usuarioABuscar, nombreUsuario=null;
 		DataInputStream leer=null;
 		
-	
+		
 		System.out.println("Nombre de usuario a buscar");
 		usuarioABuscar=teclado.nextLine();
 		try {

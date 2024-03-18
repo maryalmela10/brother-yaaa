@@ -45,6 +45,12 @@ public class Video{
 	public void agregarComentario() {
 		this.comentarios++;
 	}
+
+	@Override
+	public String toString() {
+		return nombre + ", " + comentarios + ", " + likes + ", "
+				+ longitud ;
+	}
 	
 	
 	
