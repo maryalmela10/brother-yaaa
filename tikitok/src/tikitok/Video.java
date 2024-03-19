@@ -1,23 +1,25 @@
 package tikitok;
 
 public class Video{
-	private String nombre;
+	private String nombreVideo;
 	private int comentarios;
 	private int likes;
 	private double longitud;
+	private String nombreUsuario; 
 	
-	public Video(String nombre, double longitud) {
-		this.nombre = nombre;
+	public Video(String nombreVideo, double longitud, String nombreUsuario) {
+		this.nombreVideo = nombreVideo;
 		this.comentarios = 0;
 		this.likes = 0;
 		this.longitud = longitud;
+		this.nombreUsuario=nombreUsuario;
 	}
 	
 	public String getNombre() {
-		return nombre;
+		return nombreVideo;
 	}
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.nombreVideo = nombre;
 	}
 	public int getComentarios() {
 		return comentarios;
@@ -48,8 +50,8 @@ public class Video{
 
 	@Override
 	public String toString() {
-		return nombre + ", " + comentarios + ", " + likes + ", "
-				+ longitud ;
+		return nombreVideo + ", " + comentarios + ", " + likes + ", "
+				+ longitud + ", " + nombreUsuario ;
 	}
 	
 	
