@@ -12,6 +12,8 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner teclado=new Scanner(System.in);
+		final int TAMANO_REGISTRO=204;
+		final int TAMANO_TEXTO=50;
 		int numExpe;
 		String nombre, apellido;
 		ArrayList<Alumnos> alumnos= new ArrayList<Alumnos>();
@@ -20,7 +22,7 @@ public class Main {
 		almacenado en el array, ordenar los alumnos por número de expediente y
 		almacenarlos en otro array. A continuación, almacenar los objetos del array ordenado
 		en un fichero llamado alumnos.*/
-		for(int i=0;i<10;i++) {
+		for(int i=0;i<3;i++) {
 		System.out.println("Ingresa num de expediente");
 		numExpe=Integer.parseInt(teclado.nextLine());
 		System.out.println("Ingresa nombre alumno");
@@ -38,6 +40,9 @@ public class Main {
 				numExpe=alumno.getNumExpe();
 				nombre=alumno.getNombre();
 				apellido=alumno.getApellido();
+				file.writeInt(numExpe);
+				escribirTexto(file, nombre,TAMANO_TEXTO);
+				escribirTexto(file, apellido,TAMANO_TEXTO);
 			}	
 			
 		} catch (FileNotFoundException e) {
@@ -48,6 +53,46 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		try (RandomAccessFile file = new RandomAccessFile("ficheroAlumnos.dat", "r")){
+			
+			String nombresito="";
+			String apellidito="";
+			System.out.println(file.readInt());
+			for(int i=0;i<TAMANO_TEXTO;i++) {
+				nombresito+=file.readChar();
+			}
+			
+			System.out.println("Nombre: "+nombresito);
+			for(int i=0;i<TAMANO_TEXTO;i++) {
+				apellidito+=file.readChar();
+			}
+			System.out.println("Apellido: "+apellidito);
+		
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
+	private static void escribirTexto(RandomAccessFile file, String nombre, int TAMANO_TEXTO) {
+		String textoEscribir=nombre;
+		
+		for(int i=nombre.length();i<TAMANO_TEXTO;i++) {
+			textoEscribir+="#";
+		}
+		
+		try {
+			file.writeChars(textoEscribir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
