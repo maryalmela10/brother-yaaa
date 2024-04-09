@@ -1,14 +1,17 @@
 package agenda;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Scanner;
 
 public class AgendaDao implements ContactoDao{
 	private File fichero;
-	private final int tamano_correo = 50;
-	private final int tamano_registros=108;
+	private final int TAMANO_CORREO = 50;
+	private final int TAMANO_REGISTRO=108;
+	Scanner teclado=new Scanner(System.in);
 
 	public AgendaDao() {
 		this.fichero = new File ("agenda.dat");
@@ -17,14 +20,12 @@ public class AgendaDao implements ContactoDao{
 	@Override
 	public Contacto buscarContacto(int id) {
 		try(RandomAccessFile file = new RandomAccessFile(this.fichero, "r")){
-			boolean fin = true;
 			int indice = 0;
 			int ind =0;
-			file.seek(ind);
 			int telefono = 0;
 			char caracter;
 			String correo="";
-			while(!fin) {
+			while(file.getFilePointer()!=file.length()) {
 				indice=file.readInt();
 				if(indice==id) {
 					telefono=file.readInt();
@@ -33,27 +34,59 @@ public class AgendaDao implements ContactoDao{
 						correo+=caracter;
 						caracter=file.readChar();
 					}
+					return new Contacto(indice,telefono,correo);
 				} 
-				file.seek(ind+104);
+				ind+=TAMANO_REGISTRO;
+				file.seek(ind);
+				System.out.println(file.getFilePointer());
 			}
+			
+			return null;
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+			return null;
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
+	
+	public int buscarContactoPointer(int id) {
+		try(RandomAccessFile file = new RandomAccessFile(this.fichero, "r")){
+			int indice = 0;
+			int ind =0;
+			while(file.getFilePointer()!=file.length()) {
+				indice=file.readInt();
+				if(indice==id) {
+					return (int) (file.getFilePointer()-4);
+				} 
+				ind+=TAMANO_REGISTRO;
+				file.seek(ind);
+			}
+			
+			return -1;
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			return -1;
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			return -1;
+		}
+	}
+	
 
 	@Override
 	public void guardarContacto(Contacto contacto) {
 		String correoFinal=contacto.getCorreo();
 		try(RandomAccessFile file = new RandomAccessFile(this.fichero, "rw")) {
+			file.seek(file.length());
 			file.writeInt(contacto.getId());
 			file.writeInt(contacto.getTelefono());
-			for(int i=0;i<tamano_correo;i++) {
+			for(int i=correoFinal.length();i<TAMANO_CORREO;i++) {
 				correoFinal+="#";
 			}
 			file.writeChars(correoFinal);
@@ -69,16 +102,60 @@ public class AgendaDao implements ContactoDao{
 	@Override
 	public void borrarContacto(Contacto contacto) {
 		
-		
+	}
+	
+	public String rellenar(String palabra) {
+		String palabraFinal=palabra;
+		for(int i=palabra.length();i<TAMANO_CORREO;i++) {
+			palabraFinal+="#";
+		}
+		return palabraFinal;
 	}
 
 	@Override
-	public void modificarContacto() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
+	public void modificarContacto(Contacto contacto) {
+		int respuesta;
+		String nuevoCorreo;
+		int indice=this.buscarContactoPointer(contacto.getId());
+		System.out.println("Dato modificar: 1.Telefono o 2.Correo");
+		respuesta=Integer.parseInt(teclado.nextLine());
+		if(indice!=-1) {
+		if(respuesta==1) {
+			System.out.println("Ingresa el telefono");
+			respuesta=Integer.parseInt(teclado.nextLine()); 
+			try(RandomAccessFile file = new RandomAccessFile(this.fichero, "rw")) {
+				file.seek(indice);
+				file.writeInt(contacto.getId());
+				file.writeInt(respuesta);
+				file.writeChars(this.rellenar(contacto.getCorreo()));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if(respuesta==2) {
+			System.out.println("Ingresa el Correo");
+			nuevoCorreo=teclado.nextLine();
+			try(RandomAccessFile file = new RandomAccessFile(this.fichero, "rw")) {
+				file.seek(indice);
+				file.writeInt(contacto.getId());
+				file.writeInt(contacto.getTelefono());
+				file.writeChars(this.rellenar(nuevoCorreo));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		 }
+		}	
 }
+	
+	
+	
+	
+
