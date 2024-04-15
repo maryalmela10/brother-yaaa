@@ -22,6 +22,7 @@ public class Calculadora extends JFrame {
 	private JTextField cajaResultado;
 	int num1, num2;
 	String signo;
+	int contador=0;
 
 	/**
 	 * Launch the application.
