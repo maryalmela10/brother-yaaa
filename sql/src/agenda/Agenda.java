@@ -4,17 +4,17 @@ import java.sql.Connection;
 
 public class Agenda implements DaoDesign {
 	private Connection conn;
-	
-	
+	String query;
 
 	public Agenda() {
 		super();
 		this.conn = DbConnection.returnConnection();
+		this.query=null;
 	}
 
 	@Override
 	public String insert(Contacto contacto) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

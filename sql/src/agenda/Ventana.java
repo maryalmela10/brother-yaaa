@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Ventana extends JFrame {
 
@@ -25,6 +27,9 @@ public class Ventana extends JFrame {
 	private JTextField mailTextField;
 	private JTextField bigtextField;
 	private JTextField recordLabel;
+	String firstName, lastName, mail;
+	int number, id;
+	Agenda newAgenda = new Agenda();
 
 	/**
 	 * Launch the application.
@@ -105,6 +110,32 @@ public class Ventana extends JFrame {
 		contentPane.add(mailTextField);
 		
 		JButton insertButton = new JButton("INSERT");
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Contacto newContact;
+				if(nameTextField.getText()==null || nameTextField.getText().isEmpty() || 
+					lastNameTextField.getText()==null || lastNameTextField.getText().isEmpty() ||
+							mailTextField.getText()==null || mailTextField.getText().isEmpty() ||
+									numberTextField.getText()==null || numberTextField.getText().isEmpty() ||
+											idTextField.getText()==null || idTextField.getText().isEmpty()) {
+					bigtextField.setText("No puede quedar ningun cmapo vacío");
+				} else {
+					firstName=nameTextField.getText();
+					lastName=lastNameTextField.getText();
+					mail=mailTextField.getText();
+					try {
+						number=Integer.parseInt(numberTextField.getText());
+						id=Integer.parseInt(idTextField.getText());
+						bigtextField.setText("Has introducido:  "+id+", "+firstName+", "+lastName+", "+number+", "+mail+".");
+						newContact= new Contacto(id, firstName, lastName,number,mail);
+						newAgenda.insert(newContact);
+			        } catch (NumberFormatException excepcion) {
+			        	bigtextField.setText("Ingresa el dato correcto");
+			        }
+				}
+				
+			}
+		});
 		insertButton.setBounds(214, 24, 110, 35);
 		contentPane.add(insertButton);
 		
