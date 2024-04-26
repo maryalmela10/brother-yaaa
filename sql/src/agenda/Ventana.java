@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Ventana extends JFrame {
 
@@ -25,10 +26,7 @@ public class Ventana extends JFrame {
 	private JTextField nameTextField;
 	private JTextField numberTextField;
 	private JTextField mailTextField;
-	private JTextField bigtextField;
 	private JTextField recordLabel;
-	String firstName, lastName, mail;
-	int number, id;
 	Agenda newAgenda = new Agenda();
 
 	/**
@@ -58,134 +56,209 @@ public class Ventana extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel IdLabel = new JLabel("Id:");
 		IdLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		IdLabel.setBounds(22, 24, 46, 14);
 		contentPane.add(IdLabel);
-		
+
 		JLabel firstNameLabel = new JLabel("Nombre:");
 		firstNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		firstNameLabel.setBounds(22, 49, 61, 14);
 		contentPane.add(firstNameLabel);
-		
+
 		idTextField = new JTextField();
 		idTextField.setBounds(89, 23, 86, 20);
 		contentPane.add(idTextField);
 		idTextField.setColumns(10);
-		
+
 		JLabel LastNameLabel = new JLabel("Apellido:");
 		LastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		LastNameLabel.setBounds(22, 74, 79, 14);
 		contentPane.add(LastNameLabel);
-		
+
 		JLabel mailLabel = new JLabel("Correo:");
 		mailLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		mailLabel.setBounds(22, 124, 61, 14);
 		contentPane.add(mailLabel);
-		
+
 		JLabel phoneLabel = new JLabel("Telefono:");
 		phoneLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		phoneLabel.setBounds(22, 99, 71, 14);
 		contentPane.add(phoneLabel);
-		
+
 		lastNameTextField = new JTextField();
 		lastNameTextField.setColumns(10);
 		lastNameTextField.setBounds(89, 73, 86, 20);
 		contentPane.add(lastNameTextField);
-		
+
 		nameTextField = new JTextField();
 		nameTextField.setColumns(10);
 		nameTextField.setBounds(89, 48, 86, 20);
 		contentPane.add(nameTextField);
-		
+
 		numberTextField = new JTextField();
 		numberTextField.setColumns(10);
 		numberTextField.setBounds(89, 99, 86, 20);
 		contentPane.add(numberTextField);
-		
+
 		mailTextField = new JTextField();
 		mailTextField.setColumns(10);
 		mailTextField.setBounds(89, 123, 86, 20);
 		contentPane.add(mailTextField);
+
+		JLabel bigField = new JLabel("");
+		bigField.setBackground(new Color(255, 255, 255));
+		bigField.setForeground(new Color(0, 0, 0));
+		bigField.setBounds(22, 209, 312, 70);
+		contentPane.add(bigField);
 		
+		JLabel lastRecordLabel = new JLabel("/"+Integer.toString(newAgenda.records()));
+		lastRecordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lastRecordLabel.setBounds(188, 305, 35, 30);
+		contentPane.add(lastRecordLabel);
+
 		JButton insertButton = new JButton("INSERT");
 		insertButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String firstName = null, lastName = null, mail = null;
+				int number = 0, id = 0;
 				Contacto newContact;
-				if(nameTextField.getText()==null || nameTextField.getText().isEmpty() || 
-					lastNameTextField.getText()==null || lastNameTextField.getText().isEmpty() ||
-							mailTextField.getText()==null || mailTextField.getText().isEmpty() ||
-									numberTextField.getText()==null || numberTextField.getText().isEmpty() ||
-											idTextField.getText()==null || idTextField.getText().isEmpty()) {
-					bigtextField.setText("No puede quedar ningun cmapo vacío");
+				if (nameTextField.getText() == null || nameTextField.getText().isEmpty()
+						|| lastNameTextField.getText() == null || lastNameTextField.getText().isEmpty()
+						|| mailTextField.getText() == null || mailTextField.getText().isEmpty()
+						|| numberTextField.getText() == null || numberTextField.getText().isEmpty()
+						|| idTextField.getText() == null || idTextField.getText().isEmpty()) {
+					bigField.setText("No puede quedar ningun campo vacío");
 				} else {
-					firstName=nameTextField.getText();
-					lastName=lastNameTextField.getText();
-					mail=mailTextField.getText();
-					try {
-						number=Integer.parseInt(numberTextField.getText());
-						id=Integer.parseInt(idTextField.getText());
-						bigtextField.setText("Has introducido:  "+id+", "+firstName+", "+lastName+", "+number+", "+mail+".");
-						newContact= new Contacto(id, firstName, lastName,number,mail);
+					firstName = nameTextField.getText();
+					lastName = lastNameTextField.getText();
+					mail = mailTextField.getText();
+					if (isInt(numberTextField.getText()) && isInt(idTextField.getText())) {
+						number = Integer.parseInt(numberTextField.getText());
+						id = Integer.parseInt(idTextField.getText());
+						bigField.setText("Has introducido:  " + id + ", " + firstName + ", " + lastName + ", " + number
+								+ ", " + mail + ".");
+						newContact = new Contacto(id, firstName, lastName, number, mail);
 						newAgenda.insert(newContact);
-			        } catch (NumberFormatException excepcion) {
-			        	bigtextField.setText("Ingresa el dato correcto");
-			        }
+						lastRecordLabel.setText("/"+Integer.toString(newAgenda.records()));
+					} else {
+						bigField.setText("Ingresa el dato correcto");
+					}
 				}
-				
+
 			}
 		});
 		insertButton.setBounds(214, 24, 110, 35);
 		contentPane.add(insertButton);
-		
+
 		JButton updateButton = new JButton("UPDATE");
+		updateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String firstName = null, lastName = null, mail = null;
+				int number = 0, id = 0;
+				Contacto newContact;
+				if (idTextField.getText() == null || idTextField.getText().isEmpty()) {
+					bigField.setText("Es obligatorio ingresar el Id");
+				} else if (!isInt(idTextField.getText())) {
+					bigField.setText("Ingresa el dato correcto");
+				} else if ((nameTextField.getText() == null || nameTextField.getText().isEmpty())
+						&& (lastNameTextField.getText() == null || lastNameTextField.getText().isEmpty())
+						&& (mailTextField.getText() == null || mailTextField.getText().isEmpty())
+						&& (numberTextField.getText() == null || numberTextField.getText().isEmpty())) {
+					bigField.setText("Debes modificar al menos un campo");
+				} else {
+					if (!nameTextField.getText().isEmpty()) {
+						firstName = nameTextField.getText();
+					} else if (!lastNameTextField.getText().isEmpty()) {
+						lastName = lastNameTextField.getText();
+					} else if (!mailTextField.getText().isEmpty()) {
+						mail = mailTextField.getText();
+					} else if (!numberTextField.getText().isEmpty()) {
+						if (!isInt(numberTextField.getText())) {
+							bigField.setText("Ingresa el dato correcto");
+						} else {
+							number = Integer.parseInt(numberTextField.getText());
+						}
+					}
+					id = Integer.parseInt(idTextField.getText());
+					newContact = new Contacto(id, firstName, lastName, number, mail);
+					newAgenda.update(newContact);
+					bigField.setText("Ahora si");
+				}
+
+			}
+		});
 		updateButton.setBounds(214, 65, 110, 35);
 		contentPane.add(updateButton);
-		
+
 		JButton deleteButton = new JButton("DELETE");
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String firstName = null, lastName = null, mail = null;
+				int number = 0, id = 0;
+				Contacto newContact;
+				if (idTextField.getText() == null || idTextField.getText().isEmpty()) {
+					bigField.setText("Es obligatorio ingresar el Id");
+				} else if (!isInt(idTextField.getText())) {
+					bigField.setText("Ingresa el dato correcto");
+				} else {
+					id = Integer.parseInt(idTextField.getText());
+					newContact = new Contacto(id, firstName, lastName, number, mail);
+					newAgenda.detele(newContact);
+					lastRecordLabel.setText("/"+Integer.toString(newAgenda.records()));
+					bigField.setText("Ahora si");
+				}
+			}
+		});
 		deleteButton.setBounds(214, 106, 110, 35);
 		contentPane.add(deleteButton);
-		
+
 		JButton deleteButton_1 = new JButton("SELECT");
 		deleteButton_1.setBounds(214, 146, 110, 35);
 		contentPane.add(deleteButton_1);
-		
-		bigtextField = new JTextField();
-		bigtextField.setBounds(22, 209, 311, 65);
-		contentPane.add(bigtextField);
-		bigtextField.setColumns(10);
-		
+
 		recordLabel = new JTextField();
+		recordLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		recordLabel.setText("50");
 		recordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		recordLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		recordLabel.setBounds(150, 305, 35, 30);
 		contentPane.add(recordLabel);
 		recordLabel.setColumns(10);
-		
-		JLabel lastRecordLabel = new JLabel("/50");
-		lastRecordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lastRecordLabel.setBounds(188, 305, 35, 30);
-		contentPane.add(lastRecordLabel);
-		
+
 		JButton lastRecordButton = new JButton("A");
 		lastRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lastRecordButton.setBounds(86, 305, 46, 30);
 		contentPane.add(lastRecordButton);
-		
+
 		JButton firstRecordButton = new JButton("P");
 		firstRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		firstRecordButton.setBounds(20, 305, 59, 30);
 		contentPane.add(firstRecordButton);
-		
+
 		JButton nextRecordButton = new JButton("S");
 		nextRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		nextRecordButton.setBounds(233, 305, 46, 30);
 		contentPane.add(nextRecordButton);
-		
+
 		JButton theLastRecordButton = new JButton("U");
 		theLastRecordButton.setBounds(284, 305, 59, 30);
 		contentPane.add(theLastRecordButton);
+
 	}
+
+	private boolean isInt(String in) {
+		try {
+			Integer.parseInt(in);
+			return true;
+		} catch (NumberFormatException excepcion) {
+			return false;
+		}
+	}
+	
 }

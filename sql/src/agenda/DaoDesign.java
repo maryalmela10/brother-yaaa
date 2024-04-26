@@ -2,8 +2,8 @@ package agenda;
 
 public interface DaoDesign {
 
-	public String insert(Contacto contacto);
-	public String update(Contacto contacto);
-	public String detele(Contacto contacto);
+	public boolean insert(Contacto contacto);
+	public boolean update(Contacto contacto);
+	public boolean detele(Contacto contacto);
 	
 }
