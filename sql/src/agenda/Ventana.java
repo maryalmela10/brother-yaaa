@@ -170,11 +170,11 @@ public class Ventana extends JFrame {
 				} else {
 					if (!nameTextField.getText().isEmpty()) {
 						firstName = nameTextField.getText();
-					} else if (!lastNameTextField.getText().isEmpty()) {
+					} if (!lastNameTextField.getText().isEmpty()) {
 						lastName = lastNameTextField.getText();
-					} else if (!mailTextField.getText().isEmpty()) {
+					}  if (!mailTextField.getText().isEmpty()) {
 						mail = mailTextField.getText();
-					} else if (!numberTextField.getText().isEmpty()) {
+					}  if (!numberTextField.getText().isEmpty()) {
 						if (!isInt(numberTextField.getText())) {
 							bigField.setText("Ingresa el dato correcto");
 						} else {
@@ -224,7 +224,7 @@ public class Ventana extends JFrame {
 
 			}
 		});
-		recordLabel.setText("50");
+		recordLabel.setText("0");
 		recordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		recordLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		recordLabel.setBounds(150, 305, 35, 30);

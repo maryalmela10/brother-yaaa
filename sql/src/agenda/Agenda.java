@@ -8,18 +8,17 @@ import java.sql.Statement;
 
 public class Agenda implements DaoDesign {
 	private Connection conn;
-	private String query;
 
 	public Agenda() {
 		super();
 		this.conn = DbConnection.returnConnection();
-		this.query= null;
 	}
 
 	@Override
 	public boolean insert(Contacto contacto) {
-		this.query="insert into contacto values(?,?,?,?,?);";
-		try (PreparedStatement ps = this.conn.prepareStatement(this.query)) {
+		String query;
+		query="insert into contacto values(?,?,?,?,?);";
+		try (PreparedStatement ps = this.conn.prepareStatement(query)) {
 		ps.setInt(1, contacto.getId());
 		ps.setString(2, contacto.getFirstName());
 		ps.setString(3, contacto.getLastName());
@@ -36,13 +35,63 @@ public class Agenda implements DaoDesign {
 
 	@Override
 	public boolean update(Contacto contacto) {
+		String query;
+		
+		if(contacto.getFirstName()!=null) {
+			query="UPDATE contacto SET nombre=? WHERE id="+contacto.getId()+";";
+			try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+				ps.setString(1, contacto.getFirstName());
+				ps.executeUpdate();
+			 } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				}
+		} 
+		
+		if (contacto.getLastName()!=null) {
+			query="UPDATE contacto SET apellido=? WHERE id="+contacto.getId()+";";
+			try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+				ps.setString(1, contacto.getLastName());
+				ps.executeUpdate();
+			 } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				} 
+		}  
+		
+		if (contacto.getMail()!=null) {
+			query="UPDATE contacto SET email=? WHERE id="+contacto.getId()+";";
+			try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+				ps.setString(1, contacto.getMail());
+				ps.executeUpdate();
+			 } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				}
+		} 
+		
+		if (contacto.getNumber()!=0) {
+			query="UPDATE contacto SET telefono=? WHERE id="+contacto.getId()+";";
+			try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+				ps.setInt(1, contacto.getNumber());
+				ps.executeUpdate();
+			 } catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return false;
+				}
+		}
 		return true;
 	}
 
 	@Override
 	public boolean detele(Contacto contacto) {
-		this.query="delete from contacto where id=?;";
-		try (PreparedStatement ps = this.conn.prepareStatement(this.query)) {
+		String query;
+		query="delete from contacto where id=?;";
+		try (PreparedStatement ps = this.conn.prepareStatement(query)) {
 		ps.setInt(1, contacto.getId());
 	    ps.executeUpdate();//executeUpdate
 	    } catch (SQLException e) {
@@ -54,9 +103,10 @@ public class Agenda implements DaoDesign {
 	}
 	
 	public int records() {
+		String query;
 		int records=0;
-		this.query = "select count(*) from contacto";
-	    try (PreparedStatement ps = this.conn.prepareStatement(this.query)) {
+		query = "select count(*) from contacto";
+	    try (PreparedStatement ps = this.conn.prepareStatement(query)) {
 	      ResultSet rs = ps.executeQuery(query);
 	      while (rs.next()) {
 	    	//  String first_name = rs.getString("last_name");
