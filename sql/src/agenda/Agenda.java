@@ -122,6 +122,32 @@ public class Agenda implements DaoDesign {
 		return records;
 	}
 	
+	public Contacto select() {
+		String query;
+		Contacto contacto = null;
+		query = "select * from contacto";
+	    try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+	      ResultSet rs = ps.executeQuery(query);
+	      rs.next();
+	      	int id = rs.getInt("id");
+	    	String first_name = rs.getString("nombre");
+	        String last_name = rs.getString("apellido");
+	        int number = rs.getInt("telefono");
+	        String mail = rs.getString("email");
+	        int record=rs.getRow();
+	        contacto = new Contacto(id,first_name,last_name,number,mail,record);
+	      } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return contacto;
+	}
+	
+	public void next() {
+		
+	}
+	
+	
 	public void closeConnection() {
 	 try {
 		conn.close();

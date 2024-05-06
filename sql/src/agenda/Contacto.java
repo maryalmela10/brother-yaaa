@@ -6,7 +6,18 @@ public class Contacto {
  private String lastName;
  private int number;
  private String mail;
+ private int row;
  
+public Contacto(int id, String firstName, String lastName, int number, String mail, int row) {
+	super();
+	this.id = id;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.number = number;
+	this.mail = mail;
+	this.row=row;
+}
+
 public Contacto(int id, String firstName, String lastName, int number, String mail) {
 	super();
 	this.id = id;
@@ -14,7 +25,10 @@ public Contacto(int id, String firstName, String lastName, int number, String ma
 	this.lastName = lastName;
 	this.number = number;
 	this.mail = mail;
+	this.row=0;
 }
+
+
 public int getId() {
 	return id;
 }
@@ -44,6 +58,14 @@ public String getMail() {
 }
 public void setMail(String mail) {
 	this.mail = mail;
+}
+
+public int getRow() {
+	return row;
+}
+
+public void setRow(int row) {
+	this.row = row;
 }
  
  

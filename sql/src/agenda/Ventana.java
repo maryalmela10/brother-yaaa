@@ -117,6 +117,19 @@ public class Ventana extends JFrame {
 		lastRecordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lastRecordLabel.setBounds(188, 305, 35, 30);
 		contentPane.add(lastRecordLabel);
+		
+		recordLabel = new JTextField();
+		recordLabel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		recordLabel.setText("0");
+		recordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		recordLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		recordLabel.setBounds(150, 305, 35, 30);
+		contentPane.add(recordLabel);
+		recordLabel.setColumns(10);
 
 		JButton insertButton = new JButton("INSERT");
 		insertButton.addActionListener(new ActionListener() {
@@ -215,21 +228,20 @@ public class Ventana extends JFrame {
 		contentPane.add(deleteButton);
 
 		JButton deleteButton_1 = new JButton("SELECT");
-		deleteButton_1.setBounds(214, 146, 110, 35);
-		contentPane.add(deleteButton_1);
-
-		recordLabel = new JTextField();
-		recordLabel.addActionListener(new ActionListener() {
+		deleteButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				Contacto contacto;
+				contacto=newAgenda.select();
+				idTextField.setText(Integer.toString(contacto.getId()));
+				nameTextField.setText(contacto.getFirstName());
+				lastNameTextField.setText(contacto.getLastName());
+				numberTextField.setText(Integer.toString(contacto.getNumber()));
+				mailTextField.setText(contacto.getMail());
+				recordLabel.setText(Integer.toString(contacto.getRow()));
 			}
 		});
-		recordLabel.setText("0");
-		recordLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		recordLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		recordLabel.setBounds(150, 305, 35, 30);
-		contentPane.add(recordLabel);
-		recordLabel.setColumns(10);
+		deleteButton_1.setBounds(214, 146, 110, 35);
+		contentPane.add(deleteButton_1);
 
 		JButton lastRecordButton = new JButton("A");
 		lastRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
