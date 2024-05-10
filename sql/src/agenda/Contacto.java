@@ -1,6 +1,8 @@
 package agenda;
 
-public class Contacto {
+import java.io.Serializable;
+
+public class Contacto implements Serializable{
  private int id;
  private String firstName;
  private String lastName;

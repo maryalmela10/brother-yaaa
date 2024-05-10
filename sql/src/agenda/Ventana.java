@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Ventana extends JFrame {
 
@@ -49,8 +51,14 @@ public class Ventana extends JFrame {
 	 * Create the frame.
 	 */
 	public Ventana() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				newAgenda.closeConnection();
+			}
+		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 374, 384);
+		setBounds(100, 100, 479, 361);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -110,30 +118,45 @@ public class Ventana extends JFrame {
 		JLabel bigField = new JLabel("");
 		bigField.setBackground(new Color(255, 255, 255));
 		bigField.setForeground(new Color(0, 0, 0));
-		bigField.setBounds(22, 209, 312, 70);
+		bigField.setBounds(22, 177, 422, 70);
 		contentPane.add(bigField);
 		
 		JLabel lastRecordLabel = new JLabel("/"+Integer.toString(newAgenda.records()));
 		lastRecordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lastRecordLabel.setBounds(188, 305, 35, 30);
+		lastRecordLabel.setBounds(240, 266, 35, 30);
 		contentPane.add(lastRecordLabel);
 		
 		recordLabel = new JTextField();
 		recordLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				bigField.setText("");
+				String firstName = null, lastName = null, mail = null;
+				int number = 0, id = 0;
+				Contacto newContact;
+				newContact=newAgenda.findContact(Integer.parseInt(recordLabel.getText()));
+				if(newContact!=null) {
+					idTextField.setText(Integer.toString(newContact.getId()));
+					nameTextField.setText(newContact.getFirstName());
+					lastNameTextField.setText(newContact.getLastName());
+					numberTextField.setText(Integer.toString(newContact.getNumber()));
+					mailTextField.setText(newContact.getMail());
+				} else {
+					bigField.setText("Ingresa un indice dentro del rango");
+				}
+				
 			}
 		});
 		recordLabel.setText("0");
 		recordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		recordLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		recordLabel.setBounds(150, 305, 35, 30);
+		recordLabel.setBounds(200, 266, 35, 30);
 		contentPane.add(recordLabel);
 		recordLabel.setColumns(10);
 
 		JButton insertButton = new JButton("INSERT");
 		insertButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
 				String firstName = null, lastName = null, mail = null;
 				int number = 0, id = 0;
 				Contacto newContact;
@@ -168,6 +191,7 @@ public class Ventana extends JFrame {
 		JButton updateButton = new JButton("UPDATE");
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
 				String firstName = null, lastName = null, mail = null;
 				int number = 0, id = 0;
 				Contacto newContact;
@@ -208,6 +232,7 @@ public class Ventana extends JFrame {
 		JButton deleteButton = new JButton("DELETE");
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
 				String firstName = null, lastName = null, mail = null;
 				int number = 0, id = 0;
 				Contacto newContact;
@@ -230,6 +255,7 @@ public class Ventana extends JFrame {
 		JButton deleteButton_1 = new JButton("SELECT");
 		deleteButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
 				Contacto contacto;
 				contacto=newAgenda.select();
 				idTextField.setText(Integer.toString(contacto.getId()));
@@ -240,27 +266,100 @@ public class Ventana extends JFrame {
 				recordLabel.setText(Integer.toString(contacto.getRow()));
 			}
 		});
-		deleteButton_1.setBounds(214, 146, 110, 35);
+		deleteButton_1.setBounds(334, 24, 110, 35);
 		contentPane.add(deleteButton_1);
 
-		JButton lastRecordButton = new JButton("A");
+		JButton lastRecordButton = new JButton("<");
+		lastRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
+				Contacto contacto;
+				contacto=newAgenda.previus();
+				if(contacto!=null) {
+					idTextField.setText(Integer.toString(contacto.getId()));
+					nameTextField.setText(contacto.getFirstName());
+					lastNameTextField.setText(contacto.getLastName());
+					numberTextField.setText(Integer.toString(contacto.getNumber()));
+					mailTextField.setText(contacto.getMail());
+					recordLabel.setText(Integer.toString(contacto.getRow()));
+				} else {
+					bigField.setText("No hay más datos");
+				}
+			}
+		});
 		lastRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lastRecordButton.setBounds(86, 305, 46, 30);
+		lastRecordButton.setBounds(131, 266, 46, 30);
 		contentPane.add(lastRecordButton);
 
-		JButton firstRecordButton = new JButton("P");
+		JButton firstRecordButton = new JButton("<<");
+		firstRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
+				Contacto contacto;
+				contacto=newAgenda.select();
+				idTextField.setText(Integer.toString(contacto.getId()));
+				nameTextField.setText(contacto.getFirstName());
+				lastNameTextField.setText(contacto.getLastName());
+				numberTextField.setText(Integer.toString(contacto.getNumber()));
+				mailTextField.setText(contacto.getMail());
+				recordLabel.setText(Integer.toString(contacto.getRow()));
+			}
+		});
 		firstRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		firstRecordButton.setBounds(20, 305, 59, 30);
+		firstRecordButton.setBounds(65, 266, 59, 30);
 		contentPane.add(firstRecordButton);
 
-		JButton nextRecordButton = new JButton("S");
+		JButton nextRecordButton = new JButton(">");
+		nextRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
+				Contacto contacto;
+				contacto=newAgenda.next();
+				if(contacto!=null) {
+					idTextField.setText(Integer.toString(contacto.getId()));
+					nameTextField.setText(contacto.getFirstName());
+					lastNameTextField.setText(contacto.getLastName());
+					numberTextField.setText(Integer.toString(contacto.getNumber()));
+					mailTextField.setText(contacto.getMail());
+					recordLabel.setText(Integer.toString(contacto.getRow()));
+				} else {
+					bigField.setText("No hay más datos");
+				}
+			}
+		});
 		nextRecordButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		nextRecordButton.setBounds(233, 305, 46, 30);
+		nextRecordButton.setBounds(278, 266, 46, 30);
 		contentPane.add(nextRecordButton);
 
-		JButton theLastRecordButton = new JButton("U");
-		theLastRecordButton.setBounds(284, 305, 59, 30);
+		JButton theLastRecordButton = new JButton(">>");
+		theLastRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bigField.setText("");
+				Contacto contacto;
+				contacto=newAgenda.lastRecord();
+					idTextField.setText(Integer.toString(contacto.getId()));
+					nameTextField.setText(contacto.getFirstName());
+					lastNameTextField.setText(contacto.getLastName());
+					numberTextField.setText(Integer.toString(contacto.getNumber()));
+					mailTextField.setText(contacto.getMail());
+					recordLabel.setText(Integer.toString(contacto.getRow()));
+			}
+		});
+		theLastRecordButton.setBounds(329, 266, 59, 30);
 		contentPane.add(theLastRecordButton);
+		
+		JButton binaryFileButton = new JButton("BINARY FILE");
+		binaryFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				newAgenda.binaryFile();
+			}
+		});
+		binaryFileButton.setBounds(334, 103, 110, 35);
+		contentPane.add(binaryFileButton);
+		
+		JButton textFileButton = new JButton("TEXT FILE");
+		textFileButton.setBounds(334, 63, 110, 35);
+		contentPane.add(textFileButton);
 
 	}
 
@@ -272,5 +371,4 @@ public class Ventana extends JFrame {
 			return false;
 		}
 	}
-	
 }

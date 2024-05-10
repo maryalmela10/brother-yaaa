@@ -25,6 +25,7 @@ public class AgendaDao implements ContactoDao{
 			int telefono = 0;
 			char caracter;
 			String correo="";
+		//	int tamaño=Integer.BYTES; para saber cuantos bytes ocupa
 			while(file.getFilePointer()!=file.length()) {
 				indice=file.readInt();
 				if(indice==id) {

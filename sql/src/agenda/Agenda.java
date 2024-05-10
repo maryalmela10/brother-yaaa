@@ -1,17 +1,27 @@
 package agenda;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import select.DbConexion;
+
 public class Agenda implements DaoDesign {
 	private Connection conn;
+	private int cursor;
 
 	public Agenda() {
 		super();
 		this.conn = DbConnection.returnConnection();
+		this.cursor=0;
 	}
 
 	@Override
@@ -126,7 +136,7 @@ public class Agenda implements DaoDesign {
 		String query;
 		Contacto contacto = null;
 		query = "select * from contacto";
-	    try (PreparedStatement ps = this.conn.prepareStatement(query)) {
+	    try (PreparedStatement ps = this.conn.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 	      ResultSet rs = ps.executeQuery(query);
 	      rs.next();
 	      	int id = rs.getInt("id");
@@ -135,6 +145,7 @@ public class Agenda implements DaoDesign {
 	        int number = rs.getInt("telefono");
 	        String mail = rs.getString("email");
 	        int record=rs.getRow();
+	        this.cursor=record;
 	        contacto = new Contacto(id,first_name,last_name,number,mail,record);
 	      } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -143,9 +154,128 @@ public class Agenda implements DaoDesign {
 		return contacto;
 	}
 	
-	public void next() {
-		
+	public Contacto next() {
+		String query;
+		boolean next;
+		Contacto contacto = null;
+		query = "select * from contacto";
+	    try (PreparedStatement ps = this.conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+	    	ResultSet rs = ps.executeQuery(query);
+	      	rs.absolute(this.cursor);
+	      	next=rs.next();
+	      	if (next) {
+	      		int id = rs.getInt("id");
+		    	String first_name = rs.getString("nombre");
+		        String last_name = rs.getString("apellido");
+		        int number = rs.getInt("telefono");
+		        String mail = rs.getString("email");
+		        int record=rs.getRow();
+		        this.cursor=record;
+		        contacto = new Contacto(id,first_name,last_name,number,mail,record);
+	      	}
+	      } catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contacto;
 	}
+	
+	public Contacto previus() {
+		String query;
+		boolean previus;
+		Contacto contacto = null;
+		query = "select * from contacto";
+	    try (PreparedStatement ps = this.conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+	    	ResultSet rs = ps.executeQuery(query);
+	      	rs.absolute(this.cursor);
+	      	previus=rs.previous();
+	      	if (previus) {
+	      		int id = rs.getInt("id");
+		    	String first_name = rs.getString("nombre");
+		        String last_name = rs.getString("apellido");
+		        int number = rs.getInt("telefono");
+		        String mail = rs.getString("email");
+		        int record=rs.getRow();
+		        this.cursor=record;
+		        contacto = new Contacto(id,first_name,last_name,number,mail,record);
+	      	}
+	      } catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contacto;
+	}
+	
+	public Contacto lastRecord() {
+		String query;
+		boolean previus;
+		Contacto contacto = null;
+		query = "select * from contacto";
+	    try (PreparedStatement ps = this.conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+	    		ResultSet rs = ps.executeQuery(query);
+	      		rs.absolute(this.records());
+	      		int id = rs.getInt("id");
+		    	String first_name = rs.getString("nombre");
+		        String last_name = rs.getString("apellido");
+		        int number = rs.getInt("telefono");
+		        String mail = rs.getString("email");
+		        int record=rs.getRow();
+		        this.cursor=record;
+		        contacto = new Contacto(id,first_name,last_name,number,mail,record);
+	      	
+	      } catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contacto;
+	}
+	
+	public Contacto findContact(int cursor) {
+		String query;
+		boolean thereIsRecord;
+		Contacto contacto = null;
+		query = "select * from contacto;";
+		try (PreparedStatement ps = this.conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+			ResultSet rs = ps.executeQuery(query);
+			thereIsRecord=rs.absolute(cursor);
+			if(cursor>0 && thereIsRecord) {
+				int id = rs.getInt("id");
+		    	String first_name = rs.getString("nombre");
+		        String last_name = rs.getString("apellido");
+		        int number = rs.getInt("telefono");
+		        String mail = rs.getString("email");
+		        int record=rs.getRow();
+		        this.cursor=record;
+		        contacto = new Contacto(id,first_name,last_name,number,mail,record);
+			} else {
+				return contacto;
+			}
+		 } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return contacto;
+	}
+	
+	public void binaryFile() {
+		try(ObjectOutputStream object = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("agendaBinario.mar")));){
+			String query;
+			query = "select * from contacto;";
+		     try (PreparedStatement ps = this.conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+				   ResultSet rs=ps.executeQuery();//execuUpdate con todo lo demás
+				    	while(rs.next()) {
+				    		Contacto newContacto=new Contacto(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido"),rs.getInt("telefono"),rs.getString("email"));
+				    		object.writeObject(newContacto);
+				    	}
+				      
+				    } catch (SQLException e) {
+				      e.printStackTrace();
+				    }
+				  } catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		}
 	
 	
 	public void closeConnection() {
