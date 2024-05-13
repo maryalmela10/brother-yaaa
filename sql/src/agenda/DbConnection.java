@@ -11,7 +11,7 @@ public class DbConnection {
 	
 	// Constructor
 	private DbConnection() {
-		String url = "jdbc:mysql://localhost:3307/agenda";
+		String url = "jdbc:mysql://localhost:3307/agenda";//3307 en clases
 		String usuario = "root";
 		String password = "2001";
 		

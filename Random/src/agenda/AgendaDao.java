@@ -10,6 +10,13 @@ import java.util.Scanner;
 public class AgendaDao implements ContactoDao{
 	private File fichero;
 	private final int TAMANO_CORREO = 50;
+	//en total 50 carácteres para el correo y en total 100bytes
+	//Char: 2 bytes
+	//String: 2 bytes por cada caracter.
+	//en este caso, cada registro seria 35 bytes (4 (int) + (10 * 2) (string) + 8 (double) + 1 (boolean) + 2 (char)).
+//Es importante ver como añado los String, uso la clase StringBuffer y lo limito al tamaño que yo desee, 
+	//en este caso a 10 caracteres, si tiene menos caracteres, lo rellenará con espacios y si tiene más lo cortará. 
+	//Como he comentado, es importante saber cuánto ocupa cada String para después leer, por eso todos deben tener un tamaño fijo.
 	private final int TAMANO_REGISTRO=108;
 	Scanner teclado=new Scanner(System.in);
 

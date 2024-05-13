@@ -1,0 +1,30 @@
+CREATE TABLE PROVEEDORES(
+ ID NUMBER(6),
+ NOMBRE VARCHAR2(30),
+ CIUDAD VARCHAR2(26));
+INSERT INTO PROVEEDORES VALUES (1, 'LOPSA', 'SEVILLA');
+INSERT INTO PROVEEDORES (ID, NOMBRE) VALUES (2, 'INEPSA');
+Vaciado: TRUNCATE TABLE nombreTabla;
+Renombrado: RENAME nombreTabla TO nuevoNombreTabla;
+Borrado:DROP TABLE nombreTabla;
+Para renombrar columnas: ALTER TABLE nombreTabla RENAME COLUMN nombreViejo TO nombreNuevo;
+Para borrar columnas:ALTER TABLE nombreTabla DROP COLUMN nombreColumna;
+Para modificar columnas:ALTER TABLE nombreTabla MODIFY nombreColumna TIPODATO [PROPIEDADES];
+DELETE FROM nombre_tabla [WHERE condición];
+UPDATE personas SET salario=18000 WHERE salario<18000;
+SELECT * FROM scott.emp ORDER BY sal DESC;
+
+
+SELECT * | { [DISTINCT] columna | expresión [AS alias ], ... }
+FROM nombre_de_la_tabla
+[WHERE condiciones]
+[GROUP BY campos]
+[HAVING condiciones]
+[ORDER BY expre_columna [DESC|ASC] [expre_columna [DESC|ASC]...];
+[FETCH NEXT | FIRST cantidad ROW[S] ONLY];
+
+
+
+
+
+

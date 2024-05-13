@@ -241,7 +241,7 @@ public class Agenda implements DaoDesign {
 		        String last_name = rs.getString("apellido");
 		        int number = rs.getInt("telefono");
 		        String mail = rs.getString("email");
-		        int record=rs.getRow();
+		        int record=rs.getRow() ;
 		        this.cursor=record;
 		        contacto = new Contacto(id,first_name,last_name,number,mail,record);
 			} else {

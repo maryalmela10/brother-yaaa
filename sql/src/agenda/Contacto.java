@@ -3,6 +3,7 @@ package agenda;
 import java.io.Serializable;
 
 public class Contacto implements Serializable{
+//private static final long serialVersionUID = 2L;
  private int id;
  private String firstName;
  private String lastName;
@@ -69,6 +70,11 @@ public int getRow() {
 public void setRow(int row) {
 	this.row = row;
 }
- 
+
+@Override
+public String toString() {
+	return "Contacto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", number=" + number
+			+ ", mail=" + mail + ", row=" + row + "]";
+}
  
 }
