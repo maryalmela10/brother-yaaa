@@ -262,6 +262,9 @@ public class Agenda implements DaoDesign {
 				   ResultSet rs=ps.executeQuery();//execuUpdate con todo lo demás
 				    	while(rs.next()) {
 				    		Contacto newContacto=new Contacto(rs.getInt("id"),rs.getString("nombre"),rs.getString("apellido"),rs.getInt("telefono"),rs.getString("email"));
+				    		//para hacer el cast al leer
+				    		if(newContacto instanceof Contacto) {
+				    		}
 				    		object.writeObject(newContacto);
 				    	}
 				      
@@ -276,6 +279,8 @@ public class Agenda implements DaoDesign {
 					e1.printStackTrace();
 				}
 		}
+	
+	
 	
 	
 	public void closeConnection() {

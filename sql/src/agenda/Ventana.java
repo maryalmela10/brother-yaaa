@@ -360,6 +360,14 @@ public class Ventana extends JFrame {
 		JButton textFileButton = new JButton("TEXT FILE");
 		textFileButton.setBounds(334, 63, 110, 35);
 		contentPane.add(textFileButton);
+		Contacto contacto;
+		contacto=newAgenda.select();
+		idTextField.setText(Integer.toString(contacto.getId()));
+		nameTextField.setText(contacto.getFirstName());
+		lastNameTextField.setText(contacto.getLastName());
+		numberTextField.setText(Integer.toString(contacto.getNumber()));
+		mailTextField.setText(contacto.getMail());
+		recordLabel.setText(Integer.toString(contacto.getRow()));
 
 	}
 
