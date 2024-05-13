@@ -23,7 +23,7 @@ public class DataStreams {
     
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-
+		//escribir
 		DataOutputStream out = null;
         //.dat o .bin .mary
         try {
@@ -40,7 +40,16 @@ public class DataStreams {
         } finally {
             out.close();
         }
-
+        //escribir sin sobreescribir
+        try (DataOutputStream outy = new DataOutputStream(new
+                BufferedOutputStream(new FileOutputStream(dataFile, true)));) {
+            for (int i = 0; i < prices.length; i ++) {
+                outy.writeDouble(9999.999);
+                outy.writeInt(999);
+                outy.writeUTF("probando");
+            }
+        } 
+        //leer
         DataInputStream in = null;
         double total = 0.0;
         try {
@@ -56,17 +65,17 @@ public class DataStreams {
                     price = in.readDouble();
                     unit = in.readInt();
                     desc = in.readUTF();
-                    System.out.format("You ordered %d units of %s at $%.2f%n",
-                            unit, desc, price);
+                    System.out.println("Tu producto cuesta "+price+"€, hay "+unit+" unidades");
                     total += unit * price;
                 }
             } catch (EOFException e) { }
-            System.out.format("For a TOTAL of: $%.2f%n", total);
+           System.out.println("Total "+total);
         }
         finally {
             in.close();
         }
 		
+        
 	}
 
 }

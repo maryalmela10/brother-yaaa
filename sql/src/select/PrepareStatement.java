@@ -16,7 +16,7 @@ public class PrepareStatement {
 		String query = "select first_name, last_name from actor"+ " where first_name=?";
 		    try (PreparedStatement ps = conexion.prepareStatement(query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
 		    	ps.setString(1, nombre);
-		    	ResultSet rs=ps.executeQuery();//execute
+		    	ResultSet rs=ps.executeQuery();//execuUpdate con todo lo demás
 		    	while(rs.next()) {
 		    		
 		    		 System.out.println(rs.getRow()+rs.getString("first_name")+" , "+rs.getString("last_name"));
