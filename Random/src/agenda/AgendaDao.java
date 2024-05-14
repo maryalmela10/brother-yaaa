@@ -13,6 +13,9 @@ public class AgendaDao implements ContactoDao{
 	//en total 50 carácteres para el correo y en total 100bytes
 	//Char: 2 bytes
 	//String: 2 bytes por cada caracter.
+	//INT = 4 bytes
+	//double 8 bytes
+	//boolean 1 byte
 	//en este caso, cada registro seria 35 bytes (4 (int) + (10 * 2) (string) + 8 (double) + 1 (boolean) + 2 (char)).
 //Es importante ver como añado los String, uso la clase StringBuffer y lo limito al tamaño que yo desee, 
 	//en este caso a 10 caracteres, si tiene menos caracteres, lo rellenará con espacios y si tiene más lo cortará. 
@@ -65,6 +68,7 @@ public class AgendaDao implements ContactoDao{
 		try(RandomAccessFile file = new RandomAccessFile(this.fichero, "r")){
 			int indice = 0;
 			int ind =0;
+			//sale del bucle al leer cuando el puntero llega al último byte
 			while(file.getFilePointer()!=file.length()) {
 				indice=file.readInt();
 				if(indice==id) {

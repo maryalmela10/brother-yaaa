@@ -43,6 +43,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (EOFException e) {
+			//sale siempre por esta excepción
 			System.out.println("Final del fcihero");
 		}
 		catch (IOException e) {

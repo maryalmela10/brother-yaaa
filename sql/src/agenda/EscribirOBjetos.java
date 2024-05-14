@@ -13,17 +13,20 @@ public class EscribirOBjetos {
 		File f = new File("agendaBinario.mar");
 
 		try {
+			//si no existe crea el lector de objetos normal
 			if (!f.exists()) {
 				fos = new FileOutputStream(f);
 				oss = new ObjectOutputStream(fos);
 			} else {
-				fos = new FileOutputStream(f);
-				oss = new ObjectOutputStream(fos);
+				//si ya existe utiliza el lector creado por nosotros
+				//de esta forma no vuelve a escribir la cabecera y no dará el error
+				fos = new FileOutputStream(f, true); //el true es para que escriba después de lo que ya está escrito NO SOBREESCRIBE
+				oss = new MiObjectOutputStream(fos);
 			}
 
 			for (int i = 0; i < 5; i++) {
 				Contacto p = new Contacto(5, "Mariconi", "bueno", 56564, "holis");
-				oss.writeObject(p);
+				oss.writeObject(p); //aquí escribe el objeto
 			}
 
 		} catch (IOException e) {
