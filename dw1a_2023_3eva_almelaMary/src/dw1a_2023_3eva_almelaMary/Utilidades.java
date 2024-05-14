@@ -124,6 +124,7 @@ public class Utilidades {
 					String nombre = rellenar(p.getNombre());
 					Double poblacion;
 					try(RandomAccessFile file = new RandomAccessFile("paises.mar", "rw")) {
+						file.seek(file.length());
 						file.writeChars(nombre);
 						file.writeDouble(p.getPoblacion());
 					} catch (FileNotFoundException e) {
