@@ -23,7 +23,7 @@ public class UtilidadesMatriz {
 	        	int numerito=0;
 	        	int[][] resultado= new int[2][array[0].length];
 	    		for(int i=0; i<array[0].length;i++) {
-	    			int numeroMayor=0;
+	    			int numeroMayor=-1;
 		        	int indiceMayor = -1;
 	    			for(int j=0;j<array.length;j++) {
 	    				if(UtilidadesMatriz.esNumeroEnteroPositivo(array[j][i])) {

@@ -4,11 +4,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String[][] array = { {"5",	"59",	"58",	"69",	"locamen"}, 
-							{"maryu","569",	"2",	"locamen","locamen"},
-							{"maryu","chucho","cpñ","999","55sd"},
-							{"1",	"2",	"693",	"4",		"locamen"},
-							{"256",	"565",	"chacho","locamen",	"locamen"}
+		String[][] array = { {"5",	"chucho",	"58",	"69"}, 
+							{"maryu","chucho",	"2",	"locamen"},
+							{"maryu","chucho","cpñ","999"},
 		};
 				
 		int[][] probando=UtilidadesMatriz.metodo2(array);
